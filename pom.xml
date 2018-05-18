@@ -3,14 +3,36 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pers.kochamcie</groupId>
+    <groupId>com.beelego</groupId>
     <artifactId>spring-boot-starter-swagger</artifactId>
     <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>spring-boot-starter-swagger</name>
-    <url></url>
+    <url>https://github.com/KochamCie/spring-boot-starter-swagger</url>
     <description>starter of swagger2, optional todoc file</description>
+
+
+    <organization>
+        <name>kochamcie</name>
+        <url>blog.beelego.com</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    <!--<scm>-->
+    <!---->
+    <!--</scm>-->
+
+    <developers>
+        <developer>
+            <name>hama</name>
+            <email>745258662@qq.com</email>
+        </developer>
+    </developers>
 
     <repositories>
         <repository>
@@ -43,7 +65,6 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-
 
 
         <dependency>
