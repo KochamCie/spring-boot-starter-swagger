@@ -82,6 +82,8 @@ public class Swagger2DocAutoConfig {
 
     private UnderCoverProperties underCover;
 
+    private boolean pathInsurance = false;
+
     @PostConstruct
     public void init() {
 
@@ -90,10 +92,10 @@ public class Swagger2DocAutoConfig {
         }
         URL classpath = ClassUtils.getDefaultClassLoader().getResource("");
         underCover = new UnderCoverProperties();
-        System.out.println(underCover.toString());
+        log.info("{}", underCover.toString());
         String path = classpath.getPath() + underCover.getStaticLocation();
-        boolean init = pathInsurance(path);
-        log.info("Swagger2Doc.init: {}", init);
+        pathInsurance = pathInsurance(path);
+        log.info("Swagger2Doc.init: {}", pathInsurance);
     }
 
     /**
@@ -103,8 +105,11 @@ public class Swagger2DocAutoConfig {
      * @return check given path exist
      */
     public boolean pathInsurance(String path) {
+        log.info("pathInsurance:{}", path);
         File file = new File(path);
+        log.info("{}", file.exists());
         if (!file.exists()) {
+            log.info("file.exists():{}", file.exists());
             return file.mkdirs();
         }
         return true;
@@ -134,6 +139,12 @@ public class Swagger2DocAutoConfig {
         @Override
         public void run(ApplicationArguments args) throws Exception {
             log.info("InitSwaggerDocRunner runner");
+
+            if (!pathInsurance) {
+                log.info("pathInsurance is false!!!");
+                return;
+            }
+
             if (!desire()) {
                 log.info("init skipped");
                 return;
