@@ -13,6 +13,12 @@
     <description>starter of swagger2, optional todoc file</description>
 
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
     <organization>
         <name>kochamcie</name>
         <url>blog.beelego.com</url>
@@ -21,11 +27,14 @@
         <license>
             <name>Apache License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
-    <!--<scm>-->
-    <!---->
-    <!--</scm>-->
+    <scm>
+        <url>https://github.com/KochamCie/spring-boot-starter-swagger</url>
+        <connection>git@github.com:KochamCie/spring-boot-starter-swagger.git</connection>
+        <developerConnection>http://blog.beelego.com</developerConnection>
+    </scm>
 
     <developers>
         <developer>

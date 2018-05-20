@@ -8,9 +8,10 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * @author: hama
- * @date: created in  2018/5/18
- * @description:
+ * config all.html reachable
+ *
+ * @author : hama
+ * @since : created in  2018/5/18
  */
 @Slf4j
 @ConditionalOnProperty(

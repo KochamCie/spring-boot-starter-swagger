@@ -17,9 +17,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration;
 
 /**
- * @author: hama
- * @date: created in  2018/5/17
- * @description:
+ * swagger2 auto config implements
+ *
+ * @author : hama
+ * @since created in  2018/5/17
  */
 @EnableSwagger2
 @ConditionalOnProperty(
@@ -50,7 +51,7 @@ public class Swagger2AutoConfig {
     /**
      * about your api information
      *
-     * @return
+     * @return apiInfo you config
      */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
@@ -63,6 +64,12 @@ public class Swagger2AutoConfig {
     }
 
 
+    /**
+     * convert information to swagger contact
+     *
+     * @param contact your contact
+     * @return swagger contact
+     */
     private Contact contactInfo(SwaggerProperties.Contact contact) {
         return new Contact(contact.getName(),
                 contact.getUrl(),

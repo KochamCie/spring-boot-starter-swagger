@@ -51,9 +51,10 @@ import java.util.Set;
 import static org.asciidoctor.Asciidoctor.Factory.create;
 
 /**
- * @author: hama
- * @date: created in  2018/5/17
- * @description:
+ * doc file auto config
+ *
+ * @author : hama
+ * @since : created in  2018/5/17
  */
 @Slf4j
 @ConditionalOnProperty(
@@ -96,8 +97,10 @@ public class Swagger2DocAutoConfig {
     }
 
     /**
-     * @param path
-     * @return
+     * check given path exist
+     *
+     * @param path path
+     * @return check given path exist
      */
     public boolean pathInsurance(String path) {
         File file = new File(path);

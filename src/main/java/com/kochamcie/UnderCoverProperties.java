@@ -4,9 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author: hama
- * @date: created in  2018/5/17
- * @description:
+ * reserved properties
+ *
+ * @author : hama
+ * @since : created in  2018/5/17
  */
 @Data
 @NoArgsConstructor

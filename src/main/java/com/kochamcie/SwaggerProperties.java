@@ -5,9 +5,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author: hama
- * @date: created in  2018/5/17
- * @description:
+ * common properties of swagger and asciiDoc
+ *
+ * @author : hama
+ * @since : created in  2018/5/17
  */
 @Data
 @ConfigurationProperties("swagger")
