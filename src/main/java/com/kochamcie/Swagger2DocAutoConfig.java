@@ -90,39 +90,18 @@ public class Swagger2DocAutoConfig {
         if (!properties.getAsciiInfo().isEnabled()) {
             return;
         }
-        URL classpath = ClassUtils.getDefaultClassLoader().getResource("");
-        underCover = new UnderCoverProperties();
+        underCover = UnderCoverProperties.getInstance();
         log.info("{}", underCover.toString());
-        String path2 = classpath.getPath() + underCover.getStaticLocation();
 
-
-
-        //获取跟目录
-        File path = null;
-        try {
-            path = new File(ResourceUtils.getURL("classpath:").getPath());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (!path.exists()) path = new File("");
-        log.info("path:" + path.getAbsolutePath());
-
-        //如果上传目录为/static/images/upload/，则可以如下获取：
-        File upload = new File(path.getAbsolutePath(), underCover.getStaticLocation());
-        if (!upload.exists()) upload.mkdirs();
-        //path:/app/lanmao/file:/app/lanmao/lanmao.jar!/BOOT-INF/classes!
-        path2 = upload.getAbsolutePath();
-        log.info("getStaticLocation:" + upload.getAbsolutePath());
+        String path2 = UnderCoverProperties.safePath(underCover.getStaticLocation());
+        log.info("getStaticLocation:" + path2);
 
         pathInsurance = pathInsurance(path2);
 
-        // file:/app/lanmao/lanmao.jar!/BOOT-INF/classes!/static/swagger/
         underCover.setClasspathHtml(path2);
-        // file:/app/lanmao/lanmao.jar!/BOOT-INF/classes!/static/swagger/all.adoc
         underCover.setClasspathAdoc(path2 + underCover.getDoc());
         log.info("Swagger2Doc.init: {}", pathInsurance);
         log.info("{}", underCover);
-
 
     }
 
@@ -204,24 +183,32 @@ public class Swagger2DocAutoConfig {
             }
             log.info("get classpath html location : {}", underCover.getClasspathHtml());
             File file = ResourceUtils.getFile(underCover.getClasspathHtml());
-            log.info("get Swagger2MarkupConverter.from location : {}",file.getPath(), underCover.getDocName());
+            log.info("get Swagger2MarkupConverter.from location : {}", file.getPath());
             Swagger2MarkupConverter.from(swagger)
                     .withConfig(config)
                     .build()
                     .toFile(Paths.get(file.getPath(), underCover.getDocName()));
-            log.info("after Swagger2MarkupConverter.from location : {}",file.getPath(), underCover.getDocName());
+            log.info("after Swagger2MarkupConverter.toFile location : {}, {}", file.getPath(), underCover.getDocName());
             Options options = new Options();
             options.setBackend(underCover.getBackend());
             Map<String, Object> map = new HashMap<>();
             map.put("toc", properties.getAsciiInfo().getToc());
             options.setAttributes(map);
-            log.info("Asciidoctor asciidoctor = create() : {}");
-            Asciidoctor asciidoctor = create();
-            log.info("adoc location is : {}", underCover.getClasspathAdoc());
 
-            asciidoctor.convertFile(
-                    ResourceUtils.getFile(underCover.getClasspathAdoc()),
-                    options);
+            try {
+                File adoc = new File(file.getPath() + "/all.adoc");
+                log.info("Asciidoctor asciidoctor = create() file.exist:{}: {}, {}", adoc.exists(), adoc.getPath(), adoc.getName());
+                Asciidoctor asciidoctor = create();
+                log.info("adoc location is : {}", file.getPath() + "/all.adoc");
+                asciidoctor.convertFile(
+                        adoc,
+                        options);
+
+            } catch (Exception e) {
+                log.info("exception in Asciidoctor asciidoctor = create()");
+                e.printStackTrace();
+            }
+
             log.info("done!");
         }
 
@@ -275,6 +262,15 @@ public class Swagger2DocAutoConfig {
             }
             return UnderCoverProperties.UNKNOWN_PORT;
         }
+
+    }
+
+    public static void main(String[] args) {
+        File file = new File("F:\\learningspace\\all.adoc");
+        Asciidoctor asciidoctor = create();
+        asciidoctor.convertFile(
+                file,
+                new Options());
 
     }
 
