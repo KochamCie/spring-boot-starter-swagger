@@ -28,6 +28,8 @@ public class Swagger2MVCAutoConfig extends WebMvcConfigurerAdapter {
         UnderCoverProperties properties = new UnderCoverProperties();
         registry.addResourceHandler(properties.getView())
                 .addResourceLocations(properties.getClasspathHtml());
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
     }
 
 }
