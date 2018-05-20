@@ -30,6 +30,8 @@ public class Swagger2MVCAutoConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations(properties.getClasspathHtml());
         registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("asciidoctor.css")
+                .addResourceLocations("classpath:/META-INF/resources/");
     }
 
 }

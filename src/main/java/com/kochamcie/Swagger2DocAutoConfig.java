@@ -93,9 +93,37 @@ public class Swagger2DocAutoConfig {
         URL classpath = ClassUtils.getDefaultClassLoader().getResource("");
         underCover = new UnderCoverProperties();
         log.info("{}", underCover.toString());
-        String path = classpath.getPath() + underCover.getStaticLocation();
-        pathInsurance = pathInsurance(path);
+        String path2 = classpath.getPath() + underCover.getStaticLocation();
+
+
+
+        //获取跟目录
+        File path = null;
+        try {
+            path = new File(ResourceUtils.getURL("classpath:").getPath());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (!path.exists()) path = new File("");
+        log.info("path:" + path.getAbsolutePath());
+
+        //如果上传目录为/static/images/upload/，则可以如下获取：
+        File upload = new File(path.getAbsolutePath(), underCover.getStaticLocation());
+        if (!upload.exists()) upload.mkdirs();
+        //path:/app/lanmao/file:/app/lanmao/lanmao.jar!/BOOT-INF/classes!
+        path2 = upload.getAbsolutePath();
+        log.info("getStaticLocation:" + upload.getAbsolutePath());
+
+        pathInsurance = pathInsurance(path2);
+
+        // file:/app/lanmao/lanmao.jar!/BOOT-INF/classes!/static/swagger/
+        underCover.setClasspathHtml(path2);
+        // file:/app/lanmao/lanmao.jar!/BOOT-INF/classes!/static/swagger/all.adoc
+        underCover.setClasspathAdoc(path2 + underCover.getDoc());
         log.info("Swagger2Doc.init: {}", pathInsurance);
+        log.info("{}", underCover);
+
+
     }
 
     /**
@@ -174,20 +202,23 @@ public class Swagger2DocAutoConfig {
                 }
 
             }
-
+            log.info("get classpath html location : {}", underCover.getClasspathHtml());
             File file = ResourceUtils.getFile(underCover.getClasspathHtml());
-
+            log.info("get Swagger2MarkupConverter.from location : {}",file.getPath(), underCover.getDocName());
             Swagger2MarkupConverter.from(swagger)
                     .withConfig(config)
                     .build()
                     .toFile(Paths.get(file.getPath(), underCover.getDocName()));
-
+            log.info("after Swagger2MarkupConverter.from location : {}",file.getPath(), underCover.getDocName());
             Options options = new Options();
             options.setBackend(underCover.getBackend());
             Map<String, Object> map = new HashMap<>();
             map.put("toc", properties.getAsciiInfo().getToc());
             options.setAttributes(map);
+            log.info("Asciidoctor asciidoctor = create() : {}");
             Asciidoctor asciidoctor = create();
+            log.info("adoc location is : {}", underCover.getClasspathAdoc());
+
             asciidoctor.convertFile(
                     ResourceUtils.getFile(underCover.getClasspathAdoc()),
                     options);

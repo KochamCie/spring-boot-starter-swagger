@@ -31,6 +31,9 @@ public class UnderCoverProperties {
      */
     private String classpathAdoc = "classpath:static/swagger/all.adoc";
 
+
+    private String doc = "all.adoc";
+
     /**
      * view所在路径
      */
