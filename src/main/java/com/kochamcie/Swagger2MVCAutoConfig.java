@@ -36,7 +36,7 @@ public class Swagger2MVCAutoConfig extends WebMvcConfigurerAdapter {
         if (!path.contains("classes")) {
             log.info("path.contains(\"classes\")", path.contains("classes"));
             registry.addResourceHandler(properties.getView())
-                    .addResourceLocations(path);
+                    .addResourceLocations(path.endsWith("/") ? path : (path + "/"));
         } else {
             log.info("use default all.html static path classpath:static/swagger/");
             registry.addResourceHandler(properties.getView())
